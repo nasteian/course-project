@@ -1,13 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import RegisterForm from './RegisterForm';
+import RegisterPage_Pevneva from './pages/RegisterPage_Pevneva';
+import RegisterSuccessPage_Pevneva from './pages/RegisterSuccessPage_Pevneva';
+import LoginPage_Pevneva from './pages/LoginPage_Pevneva';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import PageUrls_Pevneva from "./settings/PageUrls_Pevneva";
 
 function App() {
   return (
-    <div className="App">
-      <RegisterForm />
-    </div>
+    <Router>
+      <Routes>
+        <Route path={PageUrls_Pevneva.REGISTER} element={<RegisterPage_Pevneva />} />
+        <Route path={PageUrls_Pevneva.REGISTER_SUCCESS} element={<RegisterSuccessPage_Pevneva />} />
+        <Route path={PageUrls_Pevneva.LOGIN} element={<LoginPage_Pevneva />} />
+      </Routes>
+    </Router>
   );
 }
 
