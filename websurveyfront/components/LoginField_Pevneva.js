@@ -1,17 +1,18 @@
-import '../App.css';
-import React from 'react';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import Strings_Pevneva from '../settings/Strings_Pevneva';
-import RequestUrls_Pevneva from '../settings/RequestUrls_Pevneva';
+import '../App.css'
+import React from 'react'
+import FormControl from '@mui/material/FormControl'
+import TextField from '@mui/material/TextField'
+import Strings_Pevneva from '../settings/Strings_Pevneva'
+import RequestUrls_Pevneva from '../settings/RequestUrls_Pevneva'
+import { containsCharacters } from '../utils/StringUtils_Pevneva'
 
 export class LoginFieldTypes {
   static REGISTER = 0
   static LOGIN = 1
-};
+}
 
 export default class LoginField_Pevneva extends React.Component {  
-  avalibleCharacters = "1234567890AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_-*~"
+  avalibleCharacters = "1234567890AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_-"
 
   constructor(props) {
     super(props);
@@ -25,7 +26,6 @@ export default class LoginField_Pevneva extends React.Component {
     this.setError = this.setError.bind(this);
     this.onChange = this.onChange.bind(this);
     this.validate = this.validate.bind(this);
-    this.containsCharacters = this.containsCharacters.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.checkCorrect = this.checkCorrect.bind(this);
 
@@ -70,7 +70,7 @@ export default class LoginField_Pevneva extends React.Component {
       return true
     }
 
-    if (this.containsCharacters(login, this.avalibleCharacters)) {
+    if (containsCharacters(login, this.avalibleCharacters)) {
       this.setError(Strings_Pevneva.NOT_AVALIBLE_CHARACTERS + "\"" + this.avalibleCharacters + "\"")
       return false
     }
@@ -97,19 +97,10 @@ export default class LoginField_Pevneva extends React.Component {
     return true;
   }
 
-  containsCharacters = (str, characters) => {
-    for (let i = 0; i < str.length; i++) {
-      if (!characters.includes(str.charAt(i))) {
-        return true;
-      }
-    }
-    return false
-  }
-
   render() {
     return (
       <FormControl className='formField' variant='standard' margin='dense'>
-        <TextField id='login' label='Login' variant='standard' margin='dense'
+        <TextField id='login' label='Логин' variant='standard' margin='dense'
                 required
                 value={this.state.login}
                 error={this.state.error !== ''}

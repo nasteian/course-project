@@ -1,15 +1,15 @@
-import '../App.css';
-import React from 'react';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Input from '@mui/material/Input';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import FormHelperText from '@mui/material/FormHelperText';
-import Strings_Pevneva from '../settings/Strings_Pevneva';
-import { containerClasses } from '@mui/material';
+import '../App.css'
+import React from 'react'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import Input from '@mui/material/Input'
+import InputAdornment from '@mui/material/InputAdornment'
+import IconButton from '@mui/material/IconButton'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import FormHelperText from '@mui/material/FormHelperText'
+import Strings_Pevneva from '../settings/Strings_Pevneva'
+import { containsCharacters } from '../utils/StringUtils_Pevneva'
 
 export default class PasswordField_Pevneva extends React.Component {
   avalibleCharacters = "1234567890AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_-*~"
@@ -31,7 +31,6 @@ export default class PasswordField_Pevneva extends React.Component {
     this.handleClickShow = this.handleClickShow.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.validate = this.validate.bind(this);
-    this.containsCharacters = this.containsCharacters.bind(this);
     this.checkCorrect = this.checkCorrect.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.setError = this.setError.bind(this);
@@ -48,7 +47,7 @@ export default class PasswordField_Pevneva extends React.Component {
       return true
     }
 
-    if (this.containsCharacters(password, this.avalibleCharacters)) {
+    if (containsCharacters(password, this.avalibleCharacters)) {
       this.setError(Strings_Pevneva.NOT_AVALIBLE_CHARACTERS + "\"" + this.avalibleCharacters + "\"")
       return false;
     }
@@ -92,15 +91,6 @@ export default class PasswordField_Pevneva extends React.Component {
 
   handleMouseDown = (event) => {
     event.preventDefault()
-  }
-
-  containsCharacters = (str, characters) => {
-    for (let i = 0; i < str.length; i++) {
-      if (!characters.includes(str.charAt(i))) {
-        return true;
-      }
-    }
-    return false
   }
 
   render() {
