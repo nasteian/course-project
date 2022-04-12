@@ -15,4 +15,6 @@ export default class Strings_Pevneva {
   static ALSO_YOU_CAN_LOGIN_FIRST_PART = 'Уже есть аккаунт? ' 
   static ALSO_YOU_CAN_LOGIN_SECOND_PART = 'Войди!' 
   static HOME_PAGE_TITLE = 'Быстрый и удобный сервис по созднию веб-опросов' 
+  static HOME_PAGE_SUBTITLE = 'Создавай опросы в пару кликов!'
+  static TRY_NOW = 'Попробовать сейчас'
 }

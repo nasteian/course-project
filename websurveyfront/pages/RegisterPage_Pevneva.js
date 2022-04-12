@@ -15,6 +15,7 @@ import Strings_Pevneva from '../settings/Strings_Pevneva'
 import PageUrls_Pevneva from '../settings/PageUrls_Pevneva'
 import Helmet from 'react-helmet'
 import Particles_Pevneva from '../components/Particles_Pevneva'
+import Box from '@mui/material/Box'
 
 export default function RegisterPage_Pevneva() {
   const roles = [{
@@ -80,7 +81,7 @@ export default function RegisterPage_Pevneva() {
   const paperStyle = {padding: '20px', width: '70%', margin: '20px auto'}
 
   return (
-    <div className='registerPage'>
+    <div id='RegisterPage'>
       <Helmet title='Регистрация' />
 
       <Particles_Pevneva color='#000000' direction='none' />
@@ -107,11 +108,14 @@ export default function RegisterPage_Pevneva() {
 
           <PasswordField_Pevneva ref={codePhraseField} title='Кодовая фраза' required/>
 
+          <Box sx={{ paddingTop: 2 }} />
           <FormControl className='formField' variant='standard' margin='dense'>
             <Button variant='contained' onClick={() => {onRegisterClick()}}>Зарегистрироваться</Button>
             <FormHelperText error={registerError !== ''}>{registerError}</FormHelperText>
           </FormControl>
         </form>
+        
+        <Box sx={{ paddingTop: 2 }} />
         {Strings_Pevneva.ALSO_YOU_CAN_LOGIN_FIRST_PART}
         <a href={PageUrls_Pevneva.LOGIN}>{Strings_Pevneva.ALSO_YOU_CAN_LOGIN_SECOND_PART}</a> 
       </div>

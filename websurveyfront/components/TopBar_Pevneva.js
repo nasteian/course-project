@@ -1,11 +1,11 @@
 import '../App.css'
-import React from 'react'
+import React, { useRef } from 'react'
 import ReactDOM from 'react-dom'
 import RequestUrls_Pevneva from '../settings/RequestUrls_Pevneva'
 import PageUrls_Pevneva from '../settings/PageUrls_Pevneva'
 import Cookies_Pevneva from '../settings/Cookies_Pevneva'
 import Button from '@mui/material/Button'
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie'
 
 export default class TopBar_Pevneva extends React.Component {
   constructor(props) {
@@ -14,13 +14,13 @@ export default class TopBar_Pevneva extends React.Component {
     this.onLogOutClick = this.onLogOutClick.bind(this)
   }
 
-  onLogOutClick = async () => {
+  onLogOutClick = () => {
     let request_body = {
       'login': Cookies.get(Cookies_Pevneva.LOGIN),
       'session_id': Cookies.get(Cookies_Pevneva.SESSION_ID)
     }
 
-    await fetch(RequestUrls_Pevneva.REMOVE_SESSION, {
+    fetch(RequestUrls_Pevneva.REMOVE_SESSION, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(request_body)
@@ -28,43 +28,35 @@ export default class TopBar_Pevneva extends React.Component {
 
     Cookies.remove(Cookies_Pevneva.LOGIN)
     Cookies.remove(Cookies_Pevneva.SESSION_ID)
+    Cookies.remove(Cookies_Pevneva.AUTHORIZED)
     window.location.reload(false)
   }
 
-  componentDidMount = async() => {
-    let login = Cookies.get(Cookies_Pevneva.LOGIN)
-    let sessionId = Cookies.get(Cookies_Pevneva.SESSION_ID)
+  SurveysButton = (props) => {
+    if (props.doNotShowSurveysButton === true) return null
     
-    let request_body = {
-      'login': login,
-      'session_id': sessionId
-    }
-  
-    let sessionIsGood = false
-    if (login != null && sessionId != null) {
-      sessionIsGood = await fetch(RequestUrls_Pevneva.VERIFY_SESSION, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(request_body)
-      })
-      sessionIsGood = await sessionIsGood.json()
-    }
+    return (
+      <Button color='inherit' href={PageUrls_Pevneva.SURVEYS}>Опросы</Button>
+    )
+  }
 
+  componentDidMount = () => {
     ReactDOM.render(
-      sessionIsGood ? this.loggedInComponent : this.notLoggedInComponent,
+      Cookies.get(Cookies_Pevneva.AUTHORIZED) === 'true' ? this.loggedInComponent : this.notLoggedInComponent,
       document.getElementById('topBar')
     )
   }
 
   loggedInComponent = (
-    <div id='rightBar'>
+    <div className='topBar'>
+      <this.SurveysButton doNotShowSurveysButton={this.props.doNotShowSurveysButton} />
       <Button color='inherit'>{Cookies.get(Cookies_Pevneva.LOGIN)}</Button>
-      <Button color='inherit' onClick={(e) => {this.onLogOutClick()}}>Выйти</Button>
+      <Button color='inherit' onClick={() => {this.onLogOutClick()}}>Выйти</Button>
     </div>
   )
 
   notLoggedInComponent = (
-    <div id='rightBar'>
+    <div className='topBar'>
       <Button color='inherit' href={PageUrls_Pevneva.LOGIN}>Войти</Button>
       <Button color='inherit' href={PageUrls_Pevneva.REGISTER}>Зарегистрироваться</Button>
     </div>
@@ -73,7 +65,7 @@ export default class TopBar_Pevneva extends React.Component {
   render() {
     return (
       <div id='topBar'>
-        
+
       </div>
     )
   }

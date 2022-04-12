@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -44,7 +45,9 @@ public class UserController_Pevneva {
         String login = json.getString("login");
         String sessionIdHash = String.valueOf(json.getString("session_id").hashCode());
 
-        Boolean response = userService.GetUserByLogin(login).getSessionIdHash().equals(sessionIdHash);
+        if (!userService.UserExist(login)) return new ResponseEntity<>(false, HttpStatus.OK);
+
+        Boolean response = Objects.equals(userService.GetUserByLogin(login).getSessionIdHash(), sessionIdHash);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -55,7 +58,7 @@ public class UserController_Pevneva {
         String sessionId = String.valueOf(json.getString("session_id").hashCode());
 
         User_Pevneva user = userService.GetUserByLogin(login);
-        if (!user.getSessionIdHash().equals(sessionId)) return new ResponseEntity<>(false, HttpStatus.OK);;
+        if (!Objects.equals(user.getSessionIdHash(), sessionId)) return new ResponseEntity<>(false, HttpStatus.OK);;
 
         userService.UpdateSessionIdHashById(user.getId(), null);
         return new ResponseEntity<>(true, HttpStatus.OK);

@@ -1,23 +1,20 @@
 import '../App.css'
 import React, { useRef } from 'react'
 import Button from '@mui/material/Button'
-import Container from '@mui/material/Container'
-import Paper from '@mui/material/Paper'
 import FormHelperText from '@mui/material/FormHelperText'
 import FormControl from '@mui/material/FormControl'
 import PasswordField_Pevneva from '../components/PasswordField_Pevneva'
 import LoginField_Pevneva, { LoginFieldTypes } from '../components/LoginField_Pevneva'
 import RequestUrls_Pevneva from '../settings/RequestUrls_Pevneva'
 import Strings_Pevneva from '../settings/Strings_Pevneva'
-import { useNavigate } from 'react-router'
 import PageUrls_Pevneva from '../settings/PageUrls_Pevneva'
 import Helmet from 'react-helmet'
 import Cookies from 'js-cookie';
 import Cookies_Pevneva from '../settings/Cookies_Pevneva'
 import Particles_Pevneva from '../components/Particles_Pevneva'
+import Box from '@mui/material/Box'
 
 export default function LoginPage_Pevneva() {
-  const navigate = useNavigate()
 
   const [resultText, setResultText] = React.useState(false)
   const [role, setRole] = React.useState(false)
@@ -57,11 +54,12 @@ export default function LoginPage_Pevneva() {
     
     Cookies.set(Cookies_Pevneva.LOGIN, loginField.current.state.login)
     Cookies.set(Cookies_Pevneva.SESSION_ID, sessionId)
-    navigate(PageUrls_Pevneva.HOME)
+    Cookies.set(Cookies_Pevneva.AUTHORIZED, 'true')
+    window.location.replace(PageUrls_Pevneva.HOME)
   }
 
   return (
-    <div className='loginPage'>
+    <div id='LoginPage'>
       <Helmet title='Вход' />
 
       <Particles_Pevneva color='#000000' direction='none' />
@@ -72,12 +70,14 @@ export default function LoginPage_Pevneva() {
 
             <PasswordField_Pevneva ref={passwordField} title='Пароль' required />
 
+            <Box sx={{ paddingTop: 2 }} />
             <FormControl className='formField' variant='standard' margin='dense'>
               <Button variant='contained' onClick={() => {onLoginClick()}}>Войти</Button>
               <FormHelperText error={resultText !== ''}>{resultText}</FormHelperText>
             </FormControl>
           </form>
         </div>
+
         {Strings_Pevneva.ALSO_YOU_CAN_REGISTER_FIRST_PART}
         <a href={PageUrls_Pevneva.REGISTER}>{Strings_Pevneva.ALSO_YOU_CAN_REGISTER_SECOND_PART}</a>
       </div>
