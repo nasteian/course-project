@@ -7,8 +7,8 @@ import ListItemText from '@mui/material/ListItemText'
 import AssessmentIcon from '@mui/icons-material/Assessment'
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic'
 import AddModeratorIcon from '@mui/icons-material/AddModerator'
-import { useNavigate } from "react-router-dom"
-import PageUrls_Pevneva from "../settings/PageUrls_Pevneva"
+import { useNavigate } from 'react-router-dom'
+import PageUrls_Pevneva from '../settings/PageUrls_Pevneva'
 
 let currentIndex = 0
 
@@ -21,7 +21,7 @@ export default function LeftBar_Pevneva() {
     console.log(currentIndex)
     navigate(href)
   }
-  //{text: 'Статистика', icon: <AssessmentIcon />, href: PageUrls_Pevneva.SURVEYS_STATISTICS}
+  
   return (
     <div id='leftBar'>
       <List> 

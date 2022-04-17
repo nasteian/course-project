@@ -12,7 +12,7 @@ export class LoginFieldTypes {
 }
 
 export default class LoginField_Pevneva extends React.Component {  
-  avalibleCharacters = "1234567890AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_-"
+  avalibleCharacters = '1234567890AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_-'
 
   constructor(props) {
     super(props);
@@ -71,14 +71,13 @@ export default class LoginField_Pevneva extends React.Component {
     }
 
     if (containsCharacters(login, this.avalibleCharacters)) {
-      this.setError(Strings_Pevneva.NOT_AVALIBLE_CHARACTERS + "\"" + this.avalibleCharacters + "\"")
+      this.setError(Strings_Pevneva.NOT_AVALIBLE_CHARACTERS + '\"' + this.avalibleCharacters + '\"')
       return false
     }
     
-    let isLoginExist = await fetch(RequestUrls_Pevneva.LOGIN_EXIST, {
+    let isLoginExist = await fetch(RequestUrls_Pevneva.LOGIN_EXIST + '/' + login, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: login
+      headers: {'Content-Type': 'application/json'}
     })
     isLoginExist = await isLoginExist.json()
 

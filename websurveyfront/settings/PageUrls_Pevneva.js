@@ -4,6 +4,6 @@ export default class PageUrls_Pevneva {
   static REGISTER_SUCCESS = '/register_success'
   static LOGIN = '/login'
   static SURVEYS = '/surveys'
-  static SURVEYS_AVALIBLE = '/surveys/avalible'
-  static SURVEYS_MY = '/surveys/my'
+  static SURVEYS_AVALIBLE = this.SURVEYS + '/avalible'
+  static SURVEYS_MY = this.SURVEYS + '/my'
 }

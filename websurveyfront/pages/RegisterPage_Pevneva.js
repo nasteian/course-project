@@ -20,16 +20,16 @@ import Box from '@mui/material/Box'
 export default function RegisterPage_Pevneva() {
   const roles = [{
       label: 'Пользователь',
-      value: false
+      value: 0
     }, {
       label: 'Админ',
-      value: true
+      value: 1
   }]
 
   const navigate = useNavigate();
 
   const [registerError, setRegisterError] = React.useState('');
-  const [role, setRole] = React.useState(false);
+  const [role, setRole] = React.useState(roles[0].value);
 
   const loginField = useRef(null)
   const passwordField = useRef(null)
@@ -59,7 +59,6 @@ export default function RegisterPage_Pevneva() {
         'role': role, 
         'code_phrase': codePhraseField.current.state.password
       };
-      console.log(request_body)
 
       let response = await fetch(RequestUrls_Pevneva.REGISTER, {
         method: 'POST',

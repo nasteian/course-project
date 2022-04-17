@@ -1,7 +1,8 @@
 export default class RequestUrls_Pevneva {
-  static REGISTER = 'http://localhost:8080/user/register' 
-  static LOGIN = 'http://localhost:8080/user/login' 
-  static LOGIN_EXIST = 'http://localhost:8080/user/login_exist' 
-  static VERIFY_SESSION = 'http://localhost:8080/user/verify_session' 
-  static REMOVE_SESSION = 'http://localhost:8080/user/remove_session' 
+  static SERVER_URL = 'http://localhost:8080'
+  static REGISTER = this.SERVER_URL + '/user/register' 
+  static LOGIN = this.SERVER_URL + '/user/login'  
+  static LOGIN_EXIST = this.SERVER_URL + '/user/exist' 
+  static VERIFY_SESSION = this.SERVER_URL + '/user/session/verify' 
+  static REMOVE_SESSION = this.SERVER_URL + '/user/session/remove' 
 }
