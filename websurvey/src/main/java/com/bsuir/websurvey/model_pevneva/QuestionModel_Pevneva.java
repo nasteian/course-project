@@ -5,10 +5,10 @@ import lombok.*;
 import javax.persistence.*;
 
 @Data
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity(name = "Questions")
 @Table(name = "questions")
 public class QuestionModel_Pevneva {
     @Id
@@ -18,7 +18,7 @@ public class QuestionModel_Pevneva {
     @Getter @Setter private String wording;
     @Getter @Setter private String answer;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = CascadeType.DETACH)
     @JoinColumn(name = "survey_id")
     @Getter @Setter private SurveyModel_Pevneva survey;
 }

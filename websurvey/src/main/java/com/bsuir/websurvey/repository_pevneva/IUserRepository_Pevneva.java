@@ -18,16 +18,16 @@ public interface IUserRepository_Pevneva extends JpaRepository<UserModel_Pevneva
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("update UserModel_Pevneva u set u.sessionIdHash = :session_id where u.id = :id")
+    @Query("update Users u set u.sessionIdHash = :session_id where u.id = :id")
     void updateSessionIdHashById(@Param("session_id") String sessionIdHash, @Param("id") int id);
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("select s from UserModel_Pevneva u inner join SurveyModel_Pevneva s on u.id = s.owner where u.id = :id")
+    @Query("select s from Users u inner join Surveys s on u.id = s.owner where u.id = :id")
     List<SurveyModel_Pevneva> GetAllSurveys(@Param("id") int id);
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("select s from SurveyModel_Pevneva s where s.id not in (select s.id from UserModel_Pevneva u join u.completedSurveys s where u.id = :id)")
+    @Query("select s from Surveys s where s.id not in (select s.id from Users u join u.completedSurveys s where u.id = :id)")
     List<SurveyModel_Pevneva> GetUncompletedSurveys(@Param("id") int id);
 }

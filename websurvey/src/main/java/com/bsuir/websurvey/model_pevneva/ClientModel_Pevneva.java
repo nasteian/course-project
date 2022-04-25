@@ -5,10 +5,10 @@ import lombok.*;
 import javax.persistence.*;
 
 @Data
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity(name = "Clients")
 @Table(name = "clients")
 public class ClientModel_Pevneva {
     @Id

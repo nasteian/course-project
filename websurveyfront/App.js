@@ -12,11 +12,13 @@ import Cookies_Pevneva from './settings/Cookies_Pevneva'
 import RequestUrls_Pevneva from './settings/RequestUrls_Pevneva'
 import Cookies from 'js-cookie'
 import TopBar_Pevneva from './components/TopBar_Pevneva'
-import AvalibleSurveysPage_Pevneva from './pages/AvalibleSurveysPage_Pevneva'
+import UncompletedSurveysPage_Pevneva from './pages/UncompletedSurveysPage_Pevneva'
+import ViewSurveyPage_Pevneva from './pages/ViewSurveyPage_Pevneva'
+import { useParams } from 'react-router-dom'
 
 function Root() {
   const topBar = useRef(null)
-  const location = useLocation();
+  const location = useLocation()
 
   async function verifySession() {
     let login = Cookies.get(Cookies_Pevneva.LOGIN)
@@ -39,16 +41,23 @@ function Root() {
 
     Cookies.set(Cookies_Pevneva.AUTHORIZED, sessionIsGood)
   }
-  
+
+  const ViewSurveyPageWrapper = (props) => {
+    const params = useParams();
+    return <ViewSurveyPage_Pevneva {...{...props, params: params} } />
+  }
+
   verifySession()
 
   return (
     <>
       <Routes> 
-        <Route path={PageUrls_Pevneva.SURVEYS_AVALIBLE} element={<AvalibleSurveysPage_Pevneva />} />
+        <Route path={PageUrls_Pevneva.SURVEYS_UUNCOMPLETED} element={<UncompletedSurveysPage_Pevneva />} />
         <Route path={PageUrls_Pevneva.SURVEYS_MY} element={<MySurveysPage_Pevneva />} />
 
-        <Route path={PageUrls_Pevneva.SURVEYS + '/*'} element={<Navigate to={PageUrls_Pevneva.SURVEYS_AVALIBLE} replace />} />
+        <Route path={PageUrls_Pevneva.SURVEYS + '/*'} element={<Navigate to={PageUrls_Pevneva.SURVEYS_UUNCOMPLETED} replace />} />
+        
+        <Route path={PageUrls_Pevneva.SURVEY + '/:id'} element={<ViewSurveyPageWrapper />} />
 
         <Route path={PageUrls_Pevneva.REGISTER} element={<RegisterPage_Pevneva />} />
         <Route path={PageUrls_Pevneva.REGISTER_SUCCESS} element={<RegisterSuccessPage_Pevneva />} />

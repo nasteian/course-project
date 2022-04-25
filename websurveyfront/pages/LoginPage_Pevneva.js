@@ -9,13 +9,12 @@ import RequestUrls_Pevneva from '../settings/RequestUrls_Pevneva'
 import Strings_Pevneva from '../settings/Strings_Pevneva'
 import PageUrls_Pevneva from '../settings/PageUrls_Pevneva'
 import Helmet from 'react-helmet'
-import Cookies from 'js-cookie';
 import Cookies_Pevneva from '../settings/Cookies_Pevneva'
 import Particles_Pevneva from '../components/Particles_Pevneva'
 import Box from '@mui/material/Box'
+import Cookies from 'js-cookie'
 
 export default function LoginPage_Pevneva() {
-
   const [resultText, setResultText] = React.useState(false)
   const [role, setRole] = React.useState(false)
 
@@ -55,7 +54,7 @@ export default function LoginPage_Pevneva() {
     Cookies.set(Cookies_Pevneva.LOGIN, loginField.current.state.login)
     Cookies.set(Cookies_Pevneva.SESSION_ID, sessionId)
     Cookies.set(Cookies_Pevneva.AUTHORIZED, 'true')
-    window.location.replace(PageUrls_Pevneva.HOME)
+    window.location.assign(PageUrls_Pevneva.HOME)
   }
 
   return (

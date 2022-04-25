@@ -15,7 +15,7 @@ export default class LoginField_Pevneva extends React.Component {
   avalibleCharacters = '1234567890AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_-'
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       login: '',
@@ -34,7 +34,7 @@ export default class LoginField_Pevneva extends React.Component {
   }
 
   setError = (errorText) => {
-    this.state.error = errorText;
+    this.state.error = errorText
     this.setState({...this.state, error: errorText})
   }
 
@@ -76,10 +76,11 @@ export default class LoginField_Pevneva extends React.Component {
     }
     
     let isLoginExist = await fetch(RequestUrls_Pevneva.LOGIN_EXIST + '/' + login, {
-      method: 'POST',
+      method: 'GET',
       headers: {'Content-Type': 'application/json'}
     })
     isLoginExist = await isLoginExist.json()
+    await console.log(isLoginExist)
 
     switch(this.props.type) {
       case LoginFieldTypes.REGISTER:

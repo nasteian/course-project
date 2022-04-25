@@ -1,8 +1,8 @@
 package com.websurvey.websurvey_pevneva.controller_pevneva;
 
+import com.websurvey.websurvey_pevneva.apis_pevneva.UserApi_Pevneva;
 import com.websurvey.websurvey_pevneva.enums_pevneva.UserRole_Pevneva;
 import com.websurvey.websurvey_pevneva.model_pevneva.UserModel_Pevneva;
-import com.websurvey.websurvey_pevneva.service_pevneva.IUserService_Pevneva;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @CrossOrigin
 public class UserController_Pevneva {
     @Autowired
-    private IUserService_Pevneva userService;
+    private UserApi_Pevneva userApi;
 
     @PostMapping("/register")
     public ResponseEntity<?> Register(@RequestBody String request) {
@@ -29,33 +29,32 @@ public class UserController_Pevneva {
         user.setPasswordHash(String.valueOf(json.getString("password").hashCode()));
         user.setCodePhraseHash(String.valueOf(json.getString("code_phrase").hashCode()));
 
-        if (userService.UserExist(user.getLogin())) return new ResponseEntity<>(false, HttpStatus.OK);
-        userService.SaveUser(user);
+        if (userApi.UserExist(user.getLogin())) return new ResponseEntity<>(false, HttpStatus.OK);
+        userApi.SaveUser(user);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @GetMapping("/exist/{login}")
     public ResponseEntity<?> LoginExist(@PathVariable("login") String login) {
-        Boolean response = userService.UserExist(login);
+        Boolean response = userApi.UserExist(login);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/surveys/uncompleted")
     public ResponseEntity<?> GetUncompletedSurveys(@RequestBody String request) {
         JSONObject json = new JSONObject(request);
-        String login = json.getString("login");
-        String sessionId = json.getString("session_id");
 
-        if (!VerifySession(login, sessionId)) return new ResponseEntity<>(false, HttpStatus.OK);
-        UserModel_Pevneva user = userService.GetUserByLogin(login);
+        UserModel_Pevneva user = userApi.GetUser(json);
+        if (user == null) return new ResponseEntity<>(false, HttpStatus.OK);
 
-        JSONArray response = new JSONArray();
+        JSONArray response = new JSONArray();   
 
-        for (var survey: userService.GetUncompletedSurveys(user.getId())) {
+        for (var survey: userApi.GetUncompletedSurveys(user.getId())) {
             JSONObject surveyObject = new JSONObject();
             surveyObject.put("id", survey.getId());
             surveyObject.put("title", survey.getTitle());
             surveyObject.put("description", survey.getDescription());
+            surveyObject.put("author", survey.getOwner().getLogin());
 
             response.put(surveyObject);
         }
@@ -66,17 +65,13 @@ public class UserController_Pevneva {
     @PostMapping("/surveys/my")
     public ResponseEntity<?> GetAllSurveys(@RequestBody String request) {
         JSONObject json = new JSONObject(request);
-        String login = json.getString("login");
-        String sessionId = json.getString("session_id");
 
-        if (!VerifySession(login, sessionId)) return new ResponseEntity<>(false, HttpStatus.OK);
-        UserModel_Pevneva user = userService.GetUserByLogin(login);
-
-        if (user.getRole() != UserRole_Pevneva.Admin.value) return new ResponseEntity<>(false, HttpStatus.OK);
+        UserModel_Pevneva user = userApi.GetUser(json, UserRole_Pevneva.Admin);
+        if (user == null) return new ResponseEntity<>(false, HttpStatus.OK);
 
         JSONArray response = new JSONArray();
 
-        for (var survey: userService.GetAllSurveys(user.getId())) {
+        for (var survey: userApi.GetMySurveys(user.getId())) {
             JSONObject surveyObject = new JSONObject();
             surveyObject.put("id", survey.getId());
             surveyObject.put("title", survey.getTitle());
@@ -94,7 +89,7 @@ public class UserController_Pevneva {
         String login = json.getString("login");
         String sessionId = json.getString("session_id");
 
-        if (!VerifySession(login, sessionId)) return new ResponseEntity<>(false, HttpStatus.OK);
+        if (!userApi.VerifySession(login, sessionId)) return new ResponseEntity<>(false, HttpStatus.OK);
 
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
@@ -105,10 +100,10 @@ public class UserController_Pevneva {
         String login = json.getString("login");
         String sessionId = json.getString("session_id");
 
-        if (!VerifySession(login, sessionId)) return new ResponseEntity<>(false, HttpStatus.OK);;
-        UserModel_Pevneva user = userService.GetUserByLogin(login);
+        if (!userApi.VerifySession(login, sessionId)) return new ResponseEntity<>(false, HttpStatus.OK);;
+        UserModel_Pevneva user = userApi.GetUserByLogin(login);
 
-        userService.UpdateSessionIdHash(user.getId(), null);
+        userApi.UpdateSessionIdHash(user.getId(), null);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
@@ -118,18 +113,12 @@ public class UserController_Pevneva {
         String login = json.getString("login");
         String password = String.valueOf(json.getString("password").hashCode());
 
-        UserModel_Pevneva user = userService.GetUserByLogin(login);
+        UserModel_Pevneva user = userApi.GetUserByLogin(login);
         if (!user.getPasswordHash().equals(password)) return new ResponseEntity<>(false, HttpStatus.OK);;
 
         String sessionId = String.valueOf(ThreadLocalRandom.current().nextInt());
-        userService.UpdateSessionIdHash(user.getId(), String.valueOf(sessionId.hashCode()));
+        userApi.UpdateSessionIdHash(user.getId(), String.valueOf(sessionId.hashCode()));
 
         return new ResponseEntity<>(sessionId, HttpStatus.OK);
-    }
-
-    Boolean VerifySession(String login, String sessionId) {
-        if (!userService.UserExist(login)) return false;
-        if (!Objects.equals(userService.GetUserByLogin(login).getSessionIdHash(), String.valueOf(sessionId.hashCode()))) return false;
-        return true;
     }
 }

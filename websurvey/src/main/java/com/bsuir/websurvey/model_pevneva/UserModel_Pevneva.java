@@ -7,10 +7,10 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Data
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity(name = "Users")
 @Table(name = "users")
 public class UserModel_Pevneva {
     @Id
@@ -23,6 +23,6 @@ public class UserModel_Pevneva {
     @Nullable
     @Getter @Setter private String sessionIdHash;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.DETACH)
     Set<SurveyModel_Pevneva> completedSurveys;
 }

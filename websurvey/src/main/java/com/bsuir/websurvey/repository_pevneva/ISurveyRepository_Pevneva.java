@@ -13,8 +13,11 @@ import java.util.List;
 
 @Repository
 public interface ISurveyRepository_Pevneva extends JpaRepository<SurveyModel_Pevneva, Integer> {
+    SurveyModel_Pevneva findById(int id);
+    void deleteById(int id);
+
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query("select q from SurveyModel_Pevneva s inner join QuestionModel_Pevneva q on s.id = q.survey where s.id = :id")
+    @Query("select q from Surveys s inner join Questions q on s.id = q.survey where s.id = :id")
     List<QuestionModel_Pevneva> GetAllQuestions(@Param("id") int id);
 }

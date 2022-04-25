@@ -3,42 +3,43 @@ import React from 'react'
 import Cookies from 'js-cookie'
 import Cookies_Pevneva from '../settings/Cookies_Pevneva'
 import RequestUrls_Pevneva from '../settings/RequestUrls_Pevneva'
-import SurveyCard_Pevneva from '../components/SurveyCard_Pevneva'
+import Question_Pevneva from '../components/Question_Pevneva'
 
-export default class MySurveysPage_Pevneva extends React.Component {
+export default class ViewSurveyPage_Pevneva extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      mySurveys: []
+      questionsList: []
     }
 
-    this.loadSurveys()
+    this.loadQuestions()
   }
 
-  loadSurveys = async () => {
+  loadQuestions = async () => {
     const request_body = {
       'login': Cookies.get(Cookies_Pevneva.LOGIN),
       'session_id': Cookies.get(Cookies_Pevneva.SESSION_ID)
     }
   
-    let surveys = await fetch(RequestUrls_Pevneva.GET_MY_SURVEYS, {
+    let { id } = this.props.params
+    let questions = await fetch(RequestUrls_Pevneva.SURVEY + '/' + id + RequestUrls_Pevneva.GET_ALL_QUESTIONS, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(request_body)
     })
-    surveys = await surveys.json()
+    questions = await questions.json()
 
-    this.setState({mySurveys: surveys})
+    this.setState({questionsList: questions})
   }
   
   render() {
     return (
-      <div id='SurveysPage'>
-        <div id='surveysList'>
-          {this.state.mySurveys.map(function(survey) {
+      <div id='ViewSurveyPage'>
+        <div id='questionsList'>
+          {this.state.questionsList.map(function(question) {
             return(
-              <SurveyCard_Pevneva survey={survey} type='my'/>
+              <Question_Pevneva question={question}/>
             )
           })}
         </div>

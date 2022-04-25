@@ -25,7 +25,7 @@ export default function LeftBar_Pevneva() {
   return (
     <div id='leftBar'>
       <List> 
-        {[{text: 'Доступные опросы', icon: <AutoAwesomeMosaicIcon />, href: PageUrls_Pevneva.SURVEYS_AVALIBLE},
+        {[{text: 'Непройденые опросы', icon: <AutoAwesomeMosaicIcon />, href: PageUrls_Pevneva.SURVEYS_UUNCOMPLETED},
           {text: 'Мои опросы', icon: <AddModeratorIcon />, href: PageUrls_Pevneva.SURVEYS_MY}
           ].map((item, index) => (
           <ListItem button onClick={() => {onClick(index, item.href)}} key={item.text} selected={index === currentIndex}>

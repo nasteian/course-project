@@ -5,10 +5,10 @@ import lombok.*;
 import javax.persistence.*;
 
 @Data
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity(name = "Surveys")
 @Table(name = "surveys")
 public class SurveyModel_Pevneva {
     @Id
@@ -17,7 +17,7 @@ public class SurveyModel_Pevneva {
     @Getter @Setter private String title;
     @Getter @Setter private String description;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = CascadeType.DETACH)
     @JoinColumn(name = "owner_id")
     @Getter @Setter private UserModel_Pevneva owner;
 }

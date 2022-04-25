@@ -12,10 +12,10 @@ import Strings_Pevneva from '../settings/Strings_Pevneva'
 import { containsCharacters } from '../utils/StringUtils_Pevneva'
 
 export default class PasswordField_Pevneva extends React.Component {
-  avalibleCharacters = "1234567890AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_-*~"
+  avalibleCharacters = '1234567890AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz_-*~'
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       amount: '', 
@@ -48,7 +48,7 @@ export default class PasswordField_Pevneva extends React.Component {
     }
 
     if (containsCharacters(password, this.avalibleCharacters)) {
-      this.setError(Strings_Pevneva.NOT_AVALIBLE_CHARACTERS + "\"" + this.avalibleCharacters + "\"")
+      this.setError(Strings_Pevneva.NOT_AVALIBLE_CHARACTERS + '\"' + this.avalibleCharacters + '\"')
       return false;
     }
 
