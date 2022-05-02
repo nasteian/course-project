@@ -27,7 +27,7 @@ public class AnswerController_Pevneva {
         JSONObject json = new JSONObject(request);
 
         QuestionModel_Pevneva question = questionApi.GetQuestion(json, json.getInt("question"));
-        if (question == null) return new ResponseEntity<>(false, HttpStatus.OK);
+        if (question == null) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
         AnswerModel_Pevneva answer = new AnswerModel_Pevneva();
         answer.setAnswer(json.getString("answer"));
@@ -44,7 +44,7 @@ public class AnswerController_Pevneva {
         JSONObject json = new JSONObject(request);
 
         AnswerModel_Pevneva answer = answerApi.GetAnswer(json, id);
-        if (answer == null) return new ResponseEntity<>(false, HttpStatus.OK);
+        if (answer == null) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
         answer.setAnswer(json.getString("answer"));
 
@@ -58,7 +58,7 @@ public class AnswerController_Pevneva {
         JSONObject json = new JSONObject(request);
 
         AnswerModel_Pevneva answer = answerApi.GetAnswer(json, id);
-        if (answer == null) return new ResponseEntity<>(false, HttpStatus.OK);
+        if (answer == null) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
         answerApi.Delete(id);
 

@@ -26,9 +26,9 @@ export default function LoginPage_Pevneva() {
   }
 
   async function validate() {
-    if (!loginField.current.state.correct) return false;
-    if (!passwordField.current.state.correct) return false;
-    return true;
+    if (!loginField.current.state.correct) return false
+    if (!passwordField.current.state.correct) return false
+    return true
   }
 
   async function onLoginClick() {
@@ -44,15 +44,14 @@ export default function LoginPage_Pevneva() {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(request_body)
     })
-    sessionId = await sessionId.json()
     
-    if (sessionId === false) {
+    if (sessionId.status !== 200) {
       setResultText(Strings_Pevneva.INCORRECT_PASSWORD) 
-      return;
+      return
     } 
     
     Cookies.set(Cookies_Pevneva.LOGIN, loginField.current.state.login)
-    Cookies.set(Cookies_Pevneva.SESSION_ID, sessionId)
+    Cookies.set(Cookies_Pevneva.SESSION_ID, (await sessionId.json()))
     Cookies.set(Cookies_Pevneva.AUTHORIZED, 'true')
     window.location.assign(PageUrls_Pevneva.HOME)
   }
@@ -70,6 +69,10 @@ export default function LoginPage_Pevneva() {
             <PasswordField_Pevneva ref={passwordField} title='Пароль' required />
 
             <Box sx={{ paddingTop: 2 }} />
+            <div className='recoveryHref'>
+              <a href={PageUrls_Pevneva.RECOVERY}>{Strings_Pevneva.PASSWORD_RECOVERY}</a>
+            </div>
+
             <FormControl className='formField' variant='standard' margin='dense'>
               <Button variant='contained' onClick={() => {onLoginClick()}}>Войти</Button>
               <FormHelperText error={resultText !== ''}>{resultText}</FormHelperText>

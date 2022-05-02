@@ -23,6 +23,6 @@ public class UserModel_Pevneva {
     @Nullable
     @Getter @Setter private String sessionIdHash;
 
-    @ManyToMany(cascade = CascadeType.DETACH)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     Set<SurveyModel_Pevneva> completedSurveys;
 }

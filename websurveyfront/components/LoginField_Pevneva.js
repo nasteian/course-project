@@ -80,7 +80,6 @@ export default class LoginField_Pevneva extends React.Component {
       headers: {'Content-Type': 'application/json'}
     })
     isLoginExist = await isLoginExist.json()
-    await console.log(isLoginExist)
 
     switch(this.props.type) {
       case LoginFieldTypes.REGISTER:

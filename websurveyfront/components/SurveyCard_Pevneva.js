@@ -4,7 +4,7 @@ import PageUrls_Pevneva from '../settings/PageUrls_Pevneva'
 
 export default function SurveyCard_Pevneva(props) {
   function onClick() {
-    window.location.assign(PageUrls_Pevneva.SURVEY + '/' + props.survey['id'])
+    window.location.assign(PageUrls_Pevneva.SURVEY + '/' + props.survey['id'] + (props.type === 'my' ? PageUrls_Pevneva.MODIFY : ''))
   }
 
   return (

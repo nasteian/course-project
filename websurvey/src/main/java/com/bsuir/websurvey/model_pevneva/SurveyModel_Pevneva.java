@@ -1,6 +1,7 @@
 package com.websurvey.websurvey_pevneva.model_pevneva;
 
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 

@@ -29,7 +29,7 @@ export default class TopBar_Pevneva extends React.Component {
     Cookies.remove(Cookies_Pevneva.LOGIN)
     Cookies.remove(Cookies_Pevneva.SESSION_ID)
     Cookies.remove(Cookies_Pevneva.AUTHORIZED)
-    window.location.reload(false)
+    window.location.replace(PageUrls_Pevneva.HOME)
   }
 
   SurveysButton = (props) => {

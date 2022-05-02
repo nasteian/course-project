@@ -26,10 +26,10 @@ export default function RegisterPage_Pevneva() {
       value: 1
   }]
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const [registerError, setRegisterError] = React.useState('');
-  const [role, setRole] = React.useState(roles[0].value);
+  const [registerError, setRegisterError] = React.useState('')
+  const [role, setRole] = React.useState(roles[0].value)
 
   const loginField = useRef(null)
   const passwordField = useRef(null)
@@ -41,15 +41,15 @@ export default function RegisterPage_Pevneva() {
   }
 
   async function validate() {
-    if (!loginField.current.state.correct) return false;
-    if (!passwordField.current.state.correct) return false;
-    if (!retypePasswordField.current.state.correct) return false;
-    if (!codePhraseField.current.state.correct) return false;
+    if (!loginField.current.state.correct) return false
+    if (!passwordField.current.state.correct) return false
+    if (!retypePasswordField.current.state.correct) return false
+    if (!codePhraseField.current.state.correct) return false
     return true;
   }
 
   async function onRegisterClick() {
-    setRegisterError('');
+    setRegisterError('')
     if (!await validate()) return
     
     if (passwordField.current.state.password === retypePasswordField.current.state.password) {
@@ -68,9 +68,9 @@ export default function RegisterPage_Pevneva() {
       response = await response.json()
 
       if (response){
-        navigate(PageUrls_Pevneva.REGISTER_SUCCESS);
+        navigate(PageUrls_Pevneva.REGISTER_SUCCESS)
       }else{
-        setRegisterError(Strings_Pevneva.REGISTER_FAILED);
+        setRegisterError(Strings_Pevneva.REGISTER_FAILED)
       }
     } else {
       setRegisterError(Strings_Pevneva.PASSWORDS_NOT_MATCH)

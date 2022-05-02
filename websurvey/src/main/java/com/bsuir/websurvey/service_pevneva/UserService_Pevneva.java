@@ -5,6 +5,7 @@ import com.websurvey.websurvey_pevneva.model_pevneva.UserModel_Pevneva;
 import com.websurvey.websurvey_pevneva.repository_pevneva.IUserRepository_Pevneva;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

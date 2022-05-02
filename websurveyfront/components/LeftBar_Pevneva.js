@@ -18,14 +18,13 @@ export default function LeftBar_Pevneva() {
   function onClick(index, href) {
     if (index === currentIndex) return
     currentIndex = index
-    console.log(currentIndex)
     navigate(href)
   }
   
   return (
     <div id='leftBar'>
       <List> 
-        {[{text: 'Непройденые опросы', icon: <AutoAwesomeMosaicIcon />, href: PageUrls_Pevneva.SURVEYS_UUNCOMPLETED},
+        {[{text: 'Непройденые опросы', icon: <AutoAwesomeMosaicIcon />, href: PageUrls_Pevneva.SURVEYS_UNCOMPLETED},
           {text: 'Мои опросы', icon: <AddModeratorIcon />, href: PageUrls_Pevneva.SURVEYS_MY}
           ].map((item, index) => (
           <ListItem button onClick={() => {onClick(index, item.href)}} key={item.text} selected={index === currentIndex}>

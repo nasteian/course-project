@@ -2,6 +2,7 @@ package com.websurvey.websurvey_pevneva.controller_pevneva;
 
 import com.websurvey.websurvey_pevneva.apis_pevneva.QuestionApi_Pevneva;
 import com.websurvey.websurvey_pevneva.apis_pevneva.SurveyApi_Pevneva;
+import com.websurvey.websurvey_pevneva.enums_pevneva.QuestionType_Pevneva;
 import com.websurvey.websurvey_pevneva.model_pevneva.QuestionModel_Pevneva;
 import com.websurvey.websurvey_pevneva.model_pevneva.SurveyModel_Pevneva;
 import org.json.JSONArray;
@@ -42,11 +43,12 @@ public class QuestionController_Pevneva {
         JSONObject json = new JSONObject(request);
 
         SurveyModel_Pevneva survey = surveyApi.GetSurvey(json, json.getInt("survey"));
-        if (survey == null) return new ResponseEntity<>(false, HttpStatus.OK);
+        if (survey == null) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
         QuestionModel_Pevneva question = new QuestionModel_Pevneva();
         question.setWording(json.getString("wording"));
         question.setType(json.getInt("type"));
+        if (question.getType() == QuestionType_Pevneva.VARIANT.id) question.setVariants(json.getJSONArray("variants").toString());
         question.setAnswer(json.getString("answer"));
         question.setSurvey(survey);
 
@@ -60,10 +62,11 @@ public class QuestionController_Pevneva {
         JSONObject json = new JSONObject(request);
 
         QuestionModel_Pevneva question = questionApi.GetQuestion(json, id);
-        if (question == null) return new ResponseEntity<>(false, HttpStatus.OK);
+        if (question == null) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
         question.setWording(json.getString("wording"));
         question.setType(json.getInt("type"));
+        if (question.getType() == QuestionType_Pevneva.VARIANT.id) question.setVariants(json.getJSONArray("variants").toString());
         question.setAnswer(json.getString("answer"));
 
         questionApi.SaveQuestion(question);
@@ -76,7 +79,7 @@ public class QuestionController_Pevneva {
         JSONObject json = new JSONObject(request);
 
         QuestionModel_Pevneva question = questionApi.GetQuestion(json, id);
-        if (question == null) return new ResponseEntity<>(false, HttpStatus.OK);
+        if (question == null) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
         questionApi.Delete(question.getId());
 

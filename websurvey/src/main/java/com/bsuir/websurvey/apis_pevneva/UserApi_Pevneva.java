@@ -7,10 +7,6 @@ import com.websurvey.websurvey_pevneva.service_pevneva.IUserService_Pevneva;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +18,7 @@ public class UserApi_Pevneva {
     @Autowired
     private IUserService_Pevneva userService;
 
-    public void SaveUser(UserModel_Pevneva model) { userService.SaveUser(model); }
+    public boolean SaveUser(UserModel_Pevneva model) { return userService.SaveUser(model); }
 
     public Boolean UserExist(String login) { return userService.UserExist(login); }
 

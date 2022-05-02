@@ -1,8 +1,190 @@
+.popupTitle {
+  font-size: 28px;
+}
+
+.popupModal {
+  font-size: 18px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.popupModal > .header {
+  width: 100%;
+  border-bottom: 1px solid gray;
+  font-size: 18px;
+  text-align: center;
+  padding: 5px;
+}
+
+.popupModal > .content {
+  width: 100%;
+  padding: 10px 5px;
+}
+
+.popupModal > .actions {
+  width: 100%;
+  padding: 10px 5px;
+  margin: auto;
+  text-align: center;
+}
+
+.popupModal > .closePopup {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px;
+  line-height: 20px;
+  right: -10px;
+  top: -10px;
+  font-size: 24px;
+  background: #ff9a9e;
+  border-radius: 18px;
+}
+
+.popup-content {
+  margin: auto;
+  background: rgb(255, 255, 255);
+  width: 50%;
+  padding: 30px;
+  padding-top: 80px;
+  padding-bottom: 80px;
+  border-radius: 10px;
+}
+
+.popup-arrow {
+  color: rgb(255, 255, 255);
+}
+
+.popup-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.createSurveyCard:hover {
+  background: rgba(190, 190, 190, 0.5)
+}
+
+.createSurveyCard {  
+  position: relative;
+
+  height: 140px;
+  min-width: 200px;
+  max-width: 300px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: ease;
+  transition-duration: 300ms;
+  transition-delay: 0ms;
+
+  border-radius: 10px;
+  background: rgba(190, 190, 190, 0.2)
+}
+
+.deleteQuestionButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.modifyQuestionWrapper {
+  position: relative;
+}
+
+.addQuestion {
+  width: 500px;
+  height: 80px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  border-radius: 10px;
+  background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+}
+
+.answerVarintWrapper {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.addAnswerVarint {
+  height: 50px;
+  width: 50%;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.167);
+}
+
+.answerVarint {
+  height: 50px;
+  width: 60%;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.answerVarintTitle {
+  font-size: x-large;
+}
+
+.answerVarintDelete {
+  position: absolute;
+  right: -16px;
+}
+
 #ViewSurveyPage {
   position: relative;
   top: 11vh;
 
   width: 100%;
+}
+
+#RecoveryPage {
+  width: 100%;
+  height: 100vh;
+
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+
+  background: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+}
+
+.recoveryHref{
+  font-size: small;
+  margin-top: -5px;
+  margin-bottom: 15px;
+  margin-left: 15%;
+  text-align: left;
 }
 
 #questionsList {
@@ -13,15 +195,30 @@
   gap: 10px;
 }
 
+.modifyQuestion {
+  width: 500px;
+
+  padding-bottom: 20px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  
+  background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  border-radius: 10px;
+}
+
 .question {
-  width: 350px;
+  width: 500px;
   height: 140px;
 
-  background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
 
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  gap: 20px;
 
   border-radius: 10px;
 }
@@ -30,7 +227,6 @@
   font-size: large;
   margin-top: 6px;
   margin-left: 10px;
-  align-self: center;
 }
 
 .mySurveyCard {
@@ -44,7 +240,6 @@
   transition-duration: 300ms;
   transition-delay: 0ms;
 
-  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
   border-radius: 10px;
   background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
 }
@@ -64,7 +259,6 @@
   transition-duration: 300ms;
   transition-delay: 0ms;
 
-  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
   border-radius: 10px;
   background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
 }
@@ -102,7 +296,7 @@
 
 #surveysList {  
   position: absolute;
-  top: 80px;
+  top: 100px;
   left: 20%;
 
   width: 75%;
@@ -124,7 +318,7 @@
 
 #leftBar {
   height: 100vh;
-  width: 15%;
+  width: 200px;
 
   position: absolute;
   top: 0px;

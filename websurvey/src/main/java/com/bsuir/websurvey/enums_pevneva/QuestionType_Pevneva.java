@@ -1,12 +1,13 @@
 package com.websurvey.websurvey_pevneva.enums_pevneva;
 
 public enum QuestionType_Pevneva {
-    TEXT("text"),
-    STRING("string");
+    TEXT(0),
+    BOOLEAN(1),
+    VARIANT(2);
 
-    public final String label;
+    public final int id;
 
-    QuestionType_Pevneva(String label) {
-        this.label = label;
+    QuestionType_Pevneva(int id) {
+        this.id = id;
     }
 }

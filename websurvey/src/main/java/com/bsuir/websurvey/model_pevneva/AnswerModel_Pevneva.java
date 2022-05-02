@@ -1,6 +1,8 @@
 package com.websurvey.websurvey_pevneva.model_pevneva;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -21,6 +23,7 @@ public class AnswerModel_Pevneva {
     @Getter @Setter private UserModel_Pevneva owner;
 
     @ManyToOne(optional = false, cascade = CascadeType.DETACH)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "question_id")
     @Getter @Setter private QuestionModel_Pevneva question;
 }

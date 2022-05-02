@@ -29,7 +29,7 @@ public class UserController_Pevneva {
         user.setPasswordHash(String.valueOf(json.getString("password").hashCode()));
         user.setCodePhraseHash(String.valueOf(json.getString("code_phrase").hashCode()));
 
-        if (userApi.UserExist(user.getLogin())) return new ResponseEntity<>(false, HttpStatus.OK);
+        if (userApi.UserExist(user.getLogin())) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         userApi.SaveUser(user);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
@@ -40,12 +40,29 @@ public class UserController_Pevneva {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping("/recovery")
+    public ResponseEntity<?> Recovery(@RequestBody String request) {
+        JSONObject json = new JSONObject(request);
+        String login = json.getString("login");
+        String codePhraseHash = String.valueOf(json.getString("code_phrase").hashCode());
+
+        UserModel_Pevneva user = userApi.GetUserByLogin(login);
+        user.setPasswordHash(String.valueOf(json.getString("password").hashCode()));
+        if (!user.getCodePhraseHash().equals(codePhraseHash)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        String sessionId = String.valueOf(ThreadLocalRandom.current().nextInt());
+        userApi.UpdateSessionIdHash(user.getId(), String.valueOf(sessionId.hashCode()));
+
+        userApi.SaveUser(user);
+        return new ResponseEntity<>(sessionId, HttpStatus.OK);
+    }
+
     @PostMapping("/surveys/uncompleted")
     public ResponseEntity<?> GetUncompletedSurveys(@RequestBody String request) {
         JSONObject json = new JSONObject(request);
 
         UserModel_Pevneva user = userApi.GetUser(json);
-        if (user == null) return new ResponseEntity<>(false, HttpStatus.OK);
+        if (user == null) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
         JSONArray response = new JSONArray();   
 
@@ -67,7 +84,7 @@ public class UserController_Pevneva {
         JSONObject json = new JSONObject(request);
 
         UserModel_Pevneva user = userApi.GetUser(json, UserRole_Pevneva.Admin);
-        if (user == null) return new ResponseEntity<>(false, HttpStatus.OK);
+        if (user == null) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
         JSONArray response = new JSONArray();
 
@@ -89,7 +106,7 @@ public class UserController_Pevneva {
         String login = json.getString("login");
         String sessionId = json.getString("session_id");
 
-        if (!userApi.VerifySession(login, sessionId)) return new ResponseEntity<>(false, HttpStatus.OK);
+        if (!userApi.VerifySession(login, sessionId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
@@ -100,7 +117,7 @@ public class UserController_Pevneva {
         String login = json.getString("login");
         String sessionId = json.getString("session_id");
 
-        if (!userApi.VerifySession(login, sessionId)) return new ResponseEntity<>(false, HttpStatus.OK);;
+        if (!userApi.VerifySession(login, sessionId)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         UserModel_Pevneva user = userApi.GetUserByLogin(login);
 
         userApi.UpdateSessionIdHash(user.getId(), null);
@@ -114,7 +131,7 @@ public class UserController_Pevneva {
         String password = String.valueOf(json.getString("password").hashCode());
 
         UserModel_Pevneva user = userApi.GetUserByLogin(login);
-        if (!user.getPasswordHash().equals(password)) return new ResponseEntity<>(false, HttpStatus.OK);;
+        if (!user.getPasswordHash().equals(password)) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
         String sessionId = String.valueOf(ThreadLocalRandom.current().nextInt());
         userApi.UpdateSessionIdHash(user.getId(), String.valueOf(sessionId.hashCode()));

@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import Cookies_Pevneva from '../settings/Cookies_Pevneva'
 import RequestUrls_Pevneva from '../settings/RequestUrls_Pevneva'
 import SurveyCard_Pevneva from '../components/SurveyCard_Pevneva'
+import { Box } from '@mui/material'
 
 export default class AvalibleSurveysPage_Pevneva extends React.Component {
   constructor(props) {
@@ -41,6 +42,7 @@ export default class AvalibleSurveysPage_Pevneva extends React.Component {
               <SurveyCard_Pevneva survey={survey}/>
             )
           })}
+          <Box sx={{ paddingTop: 20 }} />
         </div>
       </div>
     )

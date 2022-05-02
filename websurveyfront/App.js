@@ -15,6 +15,9 @@ import TopBar_Pevneva from './components/TopBar_Pevneva'
 import UncompletedSurveysPage_Pevneva from './pages/UncompletedSurveysPage_Pevneva'
 import ViewSurveyPage_Pevneva from './pages/ViewSurveyPage_Pevneva'
 import { useParams } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
+import ModifySurveyPage_Pevneva from './pages/ModfiySurveyPage_Pevneva'
+import RecoveryPage_Pevneva from './pages/RecoveryPage_Pevneva'
 
 function Root() {
   const topBar = useRef(null)
@@ -42,22 +45,26 @@ function Root() {
     Cookies.set(Cookies_Pevneva.AUTHORIZED, sessionIsGood)
   }
 
-  const ViewSurveyPageWrapper = (props) => {
+  const ParamsWrapper = (props) => {
     const params = useParams();
-    return <ViewSurveyPage_Pevneva {...{...props, params: params} } />
+    return <props.element {...{...props, params: params} } />
   }
-
+  
   verifySession()
 
   return (
     <>
+      <div> <Toaster position="bottom-center" reverseOrder={false} /> </div>
       <Routes> 
-        <Route path={PageUrls_Pevneva.SURVEYS_UUNCOMPLETED} element={<UncompletedSurveysPage_Pevneva />} />
+        <Route path={PageUrls_Pevneva.SURVEYS_UNCOMPLETED} element={<UncompletedSurveysPage_Pevneva />} />
         <Route path={PageUrls_Pevneva.SURVEYS_MY} element={<MySurveysPage_Pevneva />} />
-
-        <Route path={PageUrls_Pevneva.SURVEYS + '/*'} element={<Navigate to={PageUrls_Pevneva.SURVEYS_UUNCOMPLETED} replace />} />
         
-        <Route path={PageUrls_Pevneva.SURVEY + '/:id'} element={<ViewSurveyPageWrapper />} />
+        <Route path={PageUrls_Pevneva.RECOVERY} element={<RecoveryPage_Pevneva />} />
+
+        <Route path={PageUrls_Pevneva.SURVEYS + '/*'} element={<Navigate to={PageUrls_Pevneva.SURVEYS_UNCOMPLETED} replace />} />
+        
+        <Route path={PageUrls_Pevneva.SURVEY + '/:id'} element={<ParamsWrapper element={ViewSurveyPage_Pevneva} />} />
+        <Route path={PageUrls_Pevneva.SURVEY + '/:id' + PageUrls_Pevneva.MODIFY} element={<ParamsWrapper element={ModifySurveyPage_Pevneva} />} />
 
         <Route path={PageUrls_Pevneva.REGISTER} element={<RegisterPage_Pevneva />} />
         <Route path={PageUrls_Pevneva.REGISTER_SUCCESS} element={<RegisterSuccessPage_Pevneva />} />
