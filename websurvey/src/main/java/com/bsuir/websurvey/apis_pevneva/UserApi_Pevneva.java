@@ -20,6 +20,8 @@ public class UserApi_Pevneva {
 
     public boolean SaveUser(UserModel_Pevneva model) { return userService.SaveUser(model); }
 
+    public List<UserModel_Pevneva> GetAllUsers() { return userService.GetAllUsers(); }
+
     public Boolean UserExist(String login) { return userService.UserExist(login); }
 
     public UserModel_Pevneva GetUserByLogin(String login) { return userService.GetUserByLogin(login); }

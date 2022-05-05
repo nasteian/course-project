@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 public interface IUserRepository_Pevneva extends JpaRepository<UserModel_Pevneva, Integer> {
     UserModel_Pevneva findByLogin(String login);
+    List<UserModel_Pevneva> findAll();
     Boolean existsByLogin(String login);
 
     @Transactional

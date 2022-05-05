@@ -63,6 +63,7 @@ export default class ViewSurveyPage_Pevneva extends React.Component {
         body: JSON.stringify(request_body)
       }).then(response => {
         if (response.status === 200) resolve()
+        if (response.status === 423) toast.error(Strings_Pevneva.YOU_ARE_BANNED)
         reject()
       }).catch(() => {reject()})
     })

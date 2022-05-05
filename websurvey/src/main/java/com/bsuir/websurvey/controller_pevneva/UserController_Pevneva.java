@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.json.JSONObject;
 
@@ -38,6 +39,49 @@ public class UserController_Pevneva {
     public ResponseEntity<?> LoginExist(@PathVariable("login") String login) {
         Boolean response = userApi.UserExist(login);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> GetAllUsers() {
+        List<Object> response = new ArrayList<>();
+        for (var user : userApi.GetAllUsers()) {
+            Map<String, Object> userJson = new HashMap();
+            if (user.getRole() >= UserRole_Pevneva.Admin.value) continue;
+            userJson.put("login", user.getLogin());
+            userJson.put("banned", user.getBanned());
+            response.add(userJson);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/ban")
+    @Transactional
+    public ResponseEntity<?> Ban(@RequestBody String request) {
+        JSONObject json = new JSONObject(request);
+
+        UserModel_Pevneva user = userApi.GetUser(json);
+        UserModel_Pevneva targetUser = userApi.GetUserByLogin(json.getString("user"));
+        if (targetUser == null || user == null) return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+        if (user.getRole() < UserRole_Pevneva.Admin.value) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        targetUser.setBanned(true);
+        userApi.SaveUser(targetUser);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/unban")
+    @Transactional
+    public ResponseEntity<?> Unban(@RequestBody String request) {
+        JSONObject json = new JSONObject(request);
+
+        UserModel_Pevneva user = userApi.GetUser(json);
+        UserModel_Pevneva targetUser = userApi.GetUserByLogin(json.getString("user"));
+        if (targetUser == null || user == null) return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+        if (user.getRole() < UserRole_Pevneva.Admin.value) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        targetUser.setBanned(false);
+        userApi.SaveUser(targetUser);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/recovery")

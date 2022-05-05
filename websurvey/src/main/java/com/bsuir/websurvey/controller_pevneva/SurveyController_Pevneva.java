@@ -1,5 +1,6 @@
 package com.websurvey.websurvey_pevneva.controller_pevneva;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.websurvey.websurvey_pevneva.apis_pevneva.AnswerApi_Pevneva;
 import com.websurvey.websurvey_pevneva.apis_pevneva.QuestionApi_Pevneva;
 import com.websurvey.websurvey_pevneva.apis_pevneva.SurveyApi_Pevneva;
@@ -39,29 +40,6 @@ public class SurveyController_Pevneva {
     @Autowired
     private QuestionApi_Pevneva questionApi;
 
-    @PostMapping("/{id}/questions_with_answers")
-    public ResponseEntity<?> GetQuestionsWithAnswers(@PathVariable("id") int id, @RequestBody String request) {
-        JSONObject json = new JSONObject(request);
-
-        UserModel_Pevneva user = userApi.GetUser(json);
-        if (surveyApi.GetSurvey(id).getOwner() != user) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-
-        JSONArray response = new JSONArray();
-
-        for (var question : surveyApi.GetAllQuestions(id)) {
-            JSONObject surveyObject = new JSONObject();
-            surveyObject.put("id", question.getId());
-            surveyObject.put("type", question.getType());
-            surveyObject.put("wording", question.getWording());
-            if (question.getType() == QuestionType_Pevneva.VARIANT.id) surveyObject.put("variants", new JSONArray(question.getVariants()));
-            surveyObject.put("answer", question.getAnswer());
-
-            response.put(surveyObject);
-        }
-
-        return new ResponseEntity<>(response.toString(), HttpStatus.OK);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<?> GetSurvey(@PathVariable("id") int id) {
         SurveyModel_Pevneva survey = surveyApi.GetSurvey(id);
@@ -91,6 +69,43 @@ public class SurveyController_Pevneva {
         return new ResponseEntity<>(response.toString(), HttpStatus.OK);
     }
 
+    @PostMapping("/{id}/questions_with_answers")
+    public ResponseEntity<?> GetQuestionsWithAnswers(@PathVariable("id") int id, @RequestBody String request) {
+        JSONObject json = new JSONObject(request);
+
+        SurveyModel_Pevneva survey = surveyApi.GetSurvey(id);
+        if (survey == null) return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+
+        UserModel_Pevneva user = userApi.GetUser(json);
+        if (user == null) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (survey.getOwner() != user) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        JSONArray response = new JSONArray();
+
+        for (var question : surveyApi.GetAllQuestions(id)) {
+            JSONObject surveyObject = new JSONObject();
+            surveyObject.put("id", question.getId());
+            surveyObject.put("type", question.getType());
+            surveyObject.put("wording", question.getWording());
+            surveyObject.put("answer", question.getAnswer());
+
+            JSONArray answers = new JSONArray();
+            for (var answer : questionApi.GetAllAnswers(question.getId())) {
+                JSONObject answerJson = new JSONObject();
+                answerJson.put("answer", answer.getAnswer());
+                answerJson.put("owner", answer.getOwner().getLogin());
+                answers.put(answerJson);
+            }
+            surveyObject.put("answers", answers);
+
+            if (question.getType() == QuestionType_Pevneva.VARIANT.id) surveyObject.put("variants", new JSONArray(question.getVariants()));
+
+            response.put(surveyObject);
+        }
+
+        return new ResponseEntity<>(response.toString(), HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> Create(@RequestBody String request) {
         JSONObject json = new JSONObject(request);
@@ -102,20 +117,6 @@ public class SurveyController_Pevneva {
         survey.setTitle(json.getString("title"));
         survey.setDescription(json.getString("description"));
         survey.setOwner(user);
-        surveyApi.SaveSurvey(survey);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PostMapping("/{id}/change")
-    public ResponseEntity<?> Change(@PathVariable("id") int id, @RequestBody String request) {
-        JSONObject json = new JSONObject(request);
-
-        SurveyModel_Pevneva survey = surveyApi.GetSurvey(json, id);
-        if (survey == null) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-
-        survey.setTitle(json.getString("title"));
-        survey.setDescription(json.getString("description"));
         surveyApi.SaveSurvey(survey);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -158,11 +159,12 @@ public class SurveyController_Pevneva {
     public ResponseEntity<?> UpdateAnswers(@PathVariable("id") int id, @RequestBody String request) {
         JSONObject json = new JSONObject(request);
 
-        SurveyModel_Pevneva survey = surveyApi.GetSurvey(json, id);
-        if (survey == null) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        SurveyModel_Pevneva survey = surveyApi.GetSurvey(id);
+        if (survey == null) return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
 
         UserModel_Pevneva user = userApi.GetUser(json);
-        if (user == null) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        if (user == null) return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+        if (user.getBanned()) return new ResponseEntity<>(HttpStatus.LOCKED);
 
         for (var item : json.getJSONArray("answers")) {
             JSONObject answerJson = (JSONObject)item;

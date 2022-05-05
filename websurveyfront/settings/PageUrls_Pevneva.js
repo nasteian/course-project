@@ -9,4 +9,6 @@ export default class PageUrls_Pevneva {
   static SURVEYS_MY = this.SURVEYS + '/my'
   static MODIFY = '/modify'
   static RECOVERY = '/recovery'
+  static STATISTICS = '/statistics'
+  static BAN = '/ban'
 }

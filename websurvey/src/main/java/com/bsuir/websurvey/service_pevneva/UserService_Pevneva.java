@@ -22,6 +22,9 @@ public class UserService_Pevneva implements IUserService_Pevneva {
     }
 
     @Override
+    public List<UserModel_Pevneva> GetAllUsers() { return userRepository.findAll(); }
+
+    @Override
     public Boolean UserExist(String login) { return userRepository.existsByLogin(login); }
 
     @Override

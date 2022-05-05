@@ -6,6 +6,7 @@ import com.websurvey.websurvey_pevneva.model_pevneva.UserModel_Pevneva;
 import java.util.List;
 
 public interface IUserService_Pevneva {
+    List<UserModel_Pevneva> GetAllUsers();
     Boolean SaveUser(UserModel_Pevneva user);
     Boolean UserExist(String login);
     UserModel_Pevneva GetUserByLogin(String login);

@@ -1,3 +1,99 @@
+.loginText {
+  margin-left: 10px;
+  user-select: none;
+  font-size: large;
+  color: white;
+}
+
+#BanPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.user {
+  padding: 15px;
+
+  height: 65px;
+  width: 200px;
+  background-color: #ff9a9e;
+  border-radius: 10px;
+}
+
+#usersList {
+  position: relative;
+  top: 100px;
+  left: 100px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.cardMenus {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.sortPannel {
+  position: fixed;
+  top: 100px;
+  left: 250px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 30px;
+}
+
+.customTooltip {
+  width: 250px;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  padding-left: 5px;
+}
+
+.customTooltipLabel {
+  font-size: large;
+  color: gray;
+}
+
+.questionStatistics {
+  width: 500px;
+  height: auto;
+
+  padding-top: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 30px;
+  
+  border-radius: 10px;
+  background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+}
+
+.cardClickArea {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+  width: 300px;
+  height: 100px;
+}
+
 .popupTitle {
   font-size: 28px;
 }
@@ -296,8 +392,8 @@
 
 #surveysList {  
   position: absolute;
-  top: 100px;
-  left: 20%;
+  top: 180px;
+  left: 220px;
 
   width: 75%;
 
@@ -332,8 +428,7 @@
 
 #SurveysPage {
   width: 100%;
-
-  background: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
+  height: auto;
 }
 
 .tryNowButton {

@@ -30,4 +30,9 @@ export default class Strings_Pevneva {
   static SURVEY_DELETE_CONFIRM_MESSAGE = 'Это действие БЕЗВОЗВРАТНО. Вы НЕ сможете восстановить вопрос.'
   static SURVEY_DELETED = 'Опрос удалён.'
   static INCORRECT_TITLE = 'Неверное название опроса'
+  static BANING = 'Баним...'
+  static BANNED = ' забанен.'
+  static UNBANING = 'Разбаниваем...'
+  static UNBANNED = ' разбанен.'
+  static YOU_ARE_BANNED = 'Вы не можете пройти опрос так как вы забанены'
 }

@@ -7,6 +7,7 @@ export default class RequestUrls_Pevneva {
   static REMOVE_SESSION = this.SERVER_URL + '/user/session/remove' 
   static GET_AVALIBLE_SURVEYS = this.SERVER_URL + '/user/surveys/uncompleted' 
   static GET_MY_SURVEYS = this.SERVER_URL + '/user/surveys/my' 
+  static GET_ALL_USERS = this.SERVER_URL + '/user/all' 
   static RECOVERY = this.SERVER_URL + '/user/recovery'
   static SURVEY = this.SERVER_URL + '/survey' 
   static GET_ALL_QUESTIONS = '/questions' 
@@ -15,4 +16,6 @@ export default class RequestUrls_Pevneva {
   static UPDATE_SURVEY = '/modify_all_survey' 
   static CREATE_SURVEY = this.SERVER_URL + '/survey/create' 
   static DELETE_SURVEY = '/delete' 
+  static BAN = this.SERVER_URL + '/user/ban' 
+  static UNBAN = this.SERVER_URL + '/user/unban' 
 }

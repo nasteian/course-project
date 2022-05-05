@@ -22,6 +22,7 @@ public class UserModel_Pevneva {
     @Getter @Setter private String codePhraseHash;
     @Nullable
     @Getter @Setter private String sessionIdHash;
+    @Getter @Setter private Boolean banned = false;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     Set<SurveyModel_Pevneva> completedSurveys;

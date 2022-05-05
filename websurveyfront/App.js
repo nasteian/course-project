@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import RegisterPage_Pevneva from './pages/RegisterPage_Pevneva'
 import RegisterSuccessPage_Pevneva from './pages/RegisterSuccessPage_Pevneva'
 import LoginPage_Pevneva from './pages/LoginPage_Pevneva'
-import { BrowserRouter, Route, Routes, Navigate, useLocation } from "react-router-dom"
+import { BrowserRouter, Route, Routes, Navigate, useLocation } from 'react-router-dom'
 import PageUrls_Pevneva from "./settings/PageUrls_Pevneva"
 import HomePage_Pevneva from './pages/HomePage_Pevneva'
 import MySurveysPage_Pevneva from './pages/MySurveysPage_Pevneva'
@@ -18,6 +18,8 @@ import { useParams } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import ModifySurveyPage_Pevneva from './pages/ModfiySurveyPage_Pevneva'
 import RecoveryPage_Pevneva from './pages/RecoveryPage_Pevneva'
+import StatisticsSurveyPage_Pevneva from './pages/StatisticsSurveyPage_Pevneva'
+import BanPage_Pevneva from './pages/BanPage_Pevneva'
 
 function Root() {
   const topBar = useRef(null)
@@ -54,10 +56,12 @@ function Root() {
 
   return (
     <>
-      <div> <Toaster position="bottom-center" reverseOrder={false} /> </div>
+      <div> <Toaster position='bottom-center' reverseOrder={false} /> </div>
       <Routes> 
         <Route path={PageUrls_Pevneva.SURVEYS_UNCOMPLETED} element={<UncompletedSurveysPage_Pevneva />} />
         <Route path={PageUrls_Pevneva.SURVEYS_MY} element={<MySurveysPage_Pevneva />} />
+        
+        <Route path={PageUrls_Pevneva.BAN} element={<BanPage_Pevneva />} />
         
         <Route path={PageUrls_Pevneva.RECOVERY} element={<RecoveryPage_Pevneva />} />
 
@@ -65,6 +69,7 @@ function Root() {
         
         <Route path={PageUrls_Pevneva.SURVEY + '/:id'} element={<ParamsWrapper element={ViewSurveyPage_Pevneva} />} />
         <Route path={PageUrls_Pevneva.SURVEY + '/:id' + PageUrls_Pevneva.MODIFY} element={<ParamsWrapper element={ModifySurveyPage_Pevneva} />} />
+        <Route path={PageUrls_Pevneva.SURVEY + '/:id' + PageUrls_Pevneva.STATISTICS} element={<ParamsWrapper element={StatisticsSurveyPage_Pevneva} />} />
 
         <Route path={PageUrls_Pevneva.REGISTER} element={<RegisterPage_Pevneva />} />
         <Route path={PageUrls_Pevneva.REGISTER_SUCCESS} element={<RegisterSuccessPage_Pevneva />} />
