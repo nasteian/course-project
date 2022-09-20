@@ -1,3 +1,8 @@
+# Project description
+
+The project implemented an AUTOMATED SYSTEM FOR CREATING AND CARRYING OUT A WEB QUESTIONNAIRE.
+The following technologies were used to implement the project: Spring Framework, React, MySQL.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
